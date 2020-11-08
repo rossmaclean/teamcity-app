@@ -1,0 +1,13 @@
+{
+  "version": "0.1.0",
+  "id": "rossmaclean.teamcity.cloudronapp",
+  "author": "Ross MacLean ",
+  "healthCheckPath": "/healthcheck",
+  "httpPort": 8000,
+  "icon": "logo.png",
+  "addons": {
+    "localstorage": {},
+    "ldap": {}
+  },
+  "manifestVersion": 2
+}
