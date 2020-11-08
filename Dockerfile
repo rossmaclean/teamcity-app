@@ -2,8 +2,8 @@ FROM cloudron/base:2.0.0@sha256:f9fea80513aa7c92fe2e7bf3978b54c8ac5222f47a9a32a7
 
 EXPOSE 8000
 
-RUN mkdir -p /app/data/runtime /app/data/config /app/data/teamcity && \
-    chown -R cloudron:cloudron /app/data/runtime /app/data/config /app/data/teamcity
+RUN mkdir -p /app/data/runtime /app/data/config /run && \
+    chown -R cloudron:cloudron /app/data/runtime /app/data/config /run
 
 WORKDIR /app/data
 
@@ -26,8 +26,8 @@ RUN a2enmod ldap authnz_ldap proxy proxy_http rewrite
 #    chown -R cloudron:cloudron teamcity
 
 # install TeamCity
-#RUN mkdir -p /app/data/teamcity && \
-RUN cd /app/data/ && \
+RUN mkdir -p /run/teamcity && \
+    cd /run && \
     wget -c https://download-cf.jetbrains.com/teamcity/TeamCity-2020.1.5.tar.gz && \
     tar xvfz TeamCity-*.tar.gz && \
     rm -rf TeamCity-*.tar.gz && \
@@ -55,7 +55,5 @@ COPY start.sh /app/pkg/
 RUN chmod +x /app/pkg/start.sh
 
 RUN export CATALINA_HOME=/usr/local/bin/tomcat
-
-RUN ls /app/data
 
 CMD [ "/app/pkg/start.sh" ]

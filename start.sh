@@ -9,6 +9,7 @@ rm -f "${APACHE_PID_FILE}"
 
 echo "=> Starting TeamCity"
 pwd
-ls /app/data
+ls /run
+ls /run/teamcity
 cd /app/data/teamcity/bin
 exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
