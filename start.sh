@@ -11,5 +11,5 @@ echo "=> Starting TeamCity"
 pwd
 ls /run
 ls /run/teamcity
-cd /app/data/teamcity/bin
+cd /run/teamcity/bin
 exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
