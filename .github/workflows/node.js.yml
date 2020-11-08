@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 14.x
       - run: "echo Version: $GITHUB_RUN_ID"
+      - run: npm i -g cloudron
       - run: docker login --username rossmaclean --password ${{ secrets.DOCKERHUB_TOKEN }}
       - run: docker build -t rossmaclean/teamcity:$GITHUB_RUN_ID .
       - run: docker push rossmaclean/teamcity:$GITHUB_RUN_ID
