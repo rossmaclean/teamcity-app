@@ -1,0 +1,25 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build__push_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: "echo Version: $GITHUB_RUN_ID"
+      - run: docker login --username rossmaclean --password ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: docker build -t rossmaclean/teamcity:$GITHUB_RUN_ID .
+      - run: docker push rossmaclean/teamcity:$GITHUB_RUN_ID
+      - run: cloudron update --server my.rossmac.co.uk --token ${{ secrets.CLOUDRON_TOKEN }} --app teamcity.rossmac.co.uk --image rossmaclean/teamcity:$GITHUB_RUN_ID
