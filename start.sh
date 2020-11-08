@@ -1,15 +1,18 @@
 #!/bin/bash
 
-set -eu
+set -e
 
-echo "=> Starting apache"
-APACHE_CONFDIR="" source /etc/apache2/envvars
-rm -f "${APACHE_PID_FILE}"
-/usr/sbin/apache2 -DFOREGROUND &
+if [ "$ALD" -ne "TRUE"]; then
+  echo "=> Starting apache"
+  APACHE_CONFDIR="" source /etc/apache2/envvars
+  rm -f "${APACHE_PID_FILE}"
+  /usr/sbin/apache2 -DFOREGROUND &
 
-echo "=> Starting TeamCity"
-pwd
-ls /run
-ls /run/teamcity
-cd /run/teamcity/bin
-exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
+  echo "=> Starting TeamCity"
+  pwd
+  ls /run
+  ls /run/teamcity
+  cd /run/teamcity/bin
+  exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
+  export ALD=TRUE
+fi
