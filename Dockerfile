@@ -56,4 +56,13 @@ RUN chmod +x /app/pkg/start.sh
 
 RUN export CATALINA_HOME=/usr/local/bin/tomcat
 
-CMD [ "/app/pkg/start.sh" ]
+RUN echo "=> Starting apache"
+RUN APACHE_CONFDIR="" source /etc/apache2/envvars
+RUN rm -f "${APACHE_PID_FILE}"
+RUN /usr/sbin/apache2 -DFOREGROUND &
+
+RUN echo "=> Starting TeamCity"
+RUN cd /run/teamcity/bin
+#  exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
+CMD [ "exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start" ]
+#CMD [ "/app/pkg/start.sh" ]
