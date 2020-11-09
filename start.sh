@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$ALD" != "TRUE" ]; then
+if [ ! -f /run/done ]; then
   echo "=> Starting apache"
   APACHE_CONFDIR="" source /etc/apache2/envvars
   rm -f "${APACHE_PID_FILE}"
@@ -14,5 +14,5 @@ if [ "$ALD" != "TRUE" ]; then
   ls /run/teamcity
   cd /run/teamcity/bin
   exec /usr/local/bin/gosu cloudron:cloudron ./runAll.sh start
-  export ALD=TRUE
+  touch /run/done
 fi
